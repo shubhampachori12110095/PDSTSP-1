@@ -1,5 +1,5 @@
-#ifndef DHK_LIB_TEMPLATE
-#define DHK_LIB_TEMPLATE
+#ifndef STD
+#define STD
 
 #include <bits/stdc++.h>
 using namespace std;

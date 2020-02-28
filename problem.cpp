@@ -13,12 +13,17 @@ namespace Problem
     int n; // Number of customers
     int m; // Number of drones
     int depot = 0;
-    vector<double> cD; // cost of traveling by drone from depot to customer and return
-    vector<vector<double> > cV; // cost of traveling by vehicle from this customer to another
+    vector<double> dCost; // cost of traveling by a drone from depot to customer and return
+    vector<vector<double> > vCost; // cost of traveling by the vehicle from this customer to another
 
     int nD; // Number of drone-eligible customers
 
-    void readDataFromTSPLIBInstance(string input_file, int _n, int _m, double sV, double sD)
+    double result;
+    vector<int> vTour; // tour of the vehicle, the first and the last must be depot
+    vector<vector<int>> dTour; // list of customers assigned of drones, not containing the depot
+
+
+    void import_data_from_tsplib_instance(string input_file, int _n, int _m, double vSpeed, double dSpeed)
     {
         // sV: speed of vehicle
         // sD: speed of drone
@@ -40,21 +45,40 @@ namespace Problem
             points.push_back(Point::point(x, y));
             if (drone_eligible)
             {
-                cD.push_back(2 * Point::euclidean_distance(points[0], points[i]) / sD);
+                dCost.push_back(2 * Point::euclidean_distance(points[0], points[i]) / dSpeed);
                 nD++;
             }
             else 
-                cD.push_back(Constant::INF);
+                dCost.push_back(Constant::INF);
         }
 
         for(int i = 0; i <= n; ++i)
         {
             vector<double> a = vector<double>();
-            cV.push_back(vector<double>());
+            vCost.push_back(vector<double>());
             for(int j = 0; j <= n; ++j)
-                cV[i].push_back(Point::manhattan_distance(points[i], points[j]) / sV);
+                vCost[i].push_back(Point::manhattan_distance(points[i], points[j]) / vSpeed);
         }
     }
+
+    void print_result_to_file(string output_file)
+    {
+        freopen(output_file.c_str(), "w", stdout);
+
+        cout << "Result: " << result << "\n";
+
+        cout << "Vehicle tour: ";
+        for(auto id : vTour) cout << id << " ";
+        cout << "\n";
+
+        for(int i = 0; i < m; ++i)
+        {
+            cout << "Customers of drone #" << i+1 << ": ";
+            for(auto id : dTour[i]) cout << id << " ";
+            cout << "\n";
+        }
+    }
+
 }
 
 #endif
