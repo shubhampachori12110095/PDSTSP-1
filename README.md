@@ -28,5 +28,5 @@ Config:
 
 Example:
 ```
-./main --input input.txt --output output.txt customer 100 --drone 5 --vehicle-speed 20 --drone-speed 60
+./main --input input.txt --output output.txt --customer 100 --drone 5 --vehicle-speed 20 --drone-speed 60
 ```

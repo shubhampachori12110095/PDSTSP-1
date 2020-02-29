@@ -57,7 +57,7 @@ namespace Config
                 vehicle_speed = value;
             }
             else
-            if (key == "--drone_speed")
+            if (key == "--drone-speed")
             {
                 int value = stof(argv[++i]);
                 drone_speed = value;
