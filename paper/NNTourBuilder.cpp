@@ -69,6 +69,8 @@ namespace NNTourBuilder {
         assert(tour.points.front() == 0);
         tour.add(0);
 
+            // cerr << "LAG: " << tour.size() << '\n';
+            // exit(0);
         // return
         return tour;
     }

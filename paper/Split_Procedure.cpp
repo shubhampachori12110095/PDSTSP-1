@@ -1,4 +1,5 @@
 #include "utilities.cpp"
+#include "Ore_Validator.cpp"
 
 namespace Split_Procedure {
     const double eps = 1e-9;
@@ -129,10 +130,7 @@ namespace Split_Procedure {
                     L[i].push_back(lab);
                 }
             }
-
-                // cerr << "LAG: " << i << " " << L[i].size() << " " << tmp.size() << '\n';
         }
-            // exit(0);
     }
 
     void split(const tigersugar::Instance &instance, tigersugar::Tour &vehicle, tigersugar::Drone_Tour &drone, double UB1) {
@@ -158,25 +156,14 @@ namespace Split_Procedure {
             if ( max(lab.c1, lab.c2) + eps < max(bestLab.c1, bestLab.c2) ) bestLab = lab;
         }
 
-        if (!flag) {
-                // cerr << "LOZ:\n";
-                // vehicle.debug(instance);
-                // exit(0);
-            return;
-        }
-
-            // cerr << "#dm\n";
+        if (!flag) return;
 
         vehicle.points.clear();    
         drone.node.clear(); 
-            // cerr << "?? " << v << '\n';
-            //cerr << "?? " ,< b
-            // exit(0);
 
         vehicle.add(0);
         while (v != 0) {
             int u = bestLab.preNode, pos = bestLab.pos;
-                // cerr << "?? " << u << " " << pos << " " << L[u].size() << '\n';
 
             if ( u+1 <= v-1 && drone.empty() ) drone.add_drone(); 
             FOR(i, u+1, v-1) drone.node[0].push_back(V[i]);
@@ -185,5 +172,7 @@ namespace Split_Procedure {
             v = u;
             bestLab = L[u][pos]; 
         }
+
+            // ORE_Validator::valid(instance, vehicle, drone);
     }
 }

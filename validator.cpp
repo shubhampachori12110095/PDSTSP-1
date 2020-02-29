@@ -17,7 +17,7 @@ namespace paper_validator {
         for (int x : Problem::vTour) {
             if (x == 0) continue;
             if (seen[x]) { 
-                cerr << "ERROR: " << x << " is duplicated\n";
+                cerr << "ERROR: " << x << " is duplicated 1\n";
                 exit(0); 
             } 
             seen[x] = true;
@@ -29,7 +29,13 @@ namespace paper_validator {
                 exit(0);
             }
             if (seen[x]) {
-                cerr << "ERROR: " << x << " is duplicated\n";
+                    // for (vector<int> ls : Problem::dTour) {
+                    //     cerr << "DRONE: ";
+                    //     for (int x : ls) cerr << x << " ";
+                    //     cerr << "\n\n";
+                    // }
+
+                cerr << "ERROR: " << x << " is duplicated 2\n";
                 exit(0);
             }
             seen[x] = true;
@@ -64,6 +70,6 @@ namespace paper_validator {
             exit(0); 
         }
         
-        cerr << "VALIDATOR PASS: Congratulation!!!!\n";
+        cerr << "VALIDATOR PASS: Congratulation!!!!\n\n";
     }
 }
