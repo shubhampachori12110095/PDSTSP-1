@@ -43,8 +43,8 @@ namespace interative_two_step_heuristic {
 
 
             /// OUTPUT 
-           //best_veh.debug(instance);
-           //best_drone.debug(instance);
+           // best_veh.debug(instance);
+           // best_drone.debug(instance);
            Problem::result = max( best_veh.distance(instance), best_drone.distance(instance) );
            Problem::vTour = best_veh.points;
            Problem::dTour = best_drone.node;

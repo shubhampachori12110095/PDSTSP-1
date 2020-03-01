@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
 
     tigersugar::Instance instance = Input_Adaptation::Process();
     interative_two_step_heuristic::Process(instance);
-    paper_validator::checking();
 
     cerr << "Number of customers: " << Problem::n << "\n";
     cerr << "Number of drones: " << Problem::m << "\n";
@@ -43,6 +42,9 @@ int main(int argc, char *argv[])
             for (int x : Problem::dTour[i]) cerr << x << " ";
             cerr << '\n';
         }
+        cerr << '\n';
+
+    paper_validator::checking();
 
 
     // Problem::print_result_to_file(Config::output);

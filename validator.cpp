@@ -24,6 +24,11 @@ namespace paper_validator {
         } 
 
         for (vector<int> drone : Problem::dTour) for (int x : drone) {
+            if (Problem::dCost[x] == Constant::INF) {
+                cerr << "ERROR: " << x << " is not drone eligible\n";
+                exit(0);
+            }
+
             if (x == 0) {
                 cerr << "ERROR: depot is in drone tour \n";
                 exit(0);
