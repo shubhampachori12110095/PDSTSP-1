@@ -42,6 +42,7 @@ namespace Problem
             int id, drone_eligible;
             double x, y;
             input >> id >> temp >> x >> temp >> y >> temp >> drone_eligible;
+            drone_eligible = 1 - drone_eligible;
             points.push_back(Point::point(x, y));
             if (drone_eligible)
             {
