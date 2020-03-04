@@ -142,6 +142,18 @@ namespace Split_Procedure {
         for (vector<int> idDrone : drone.node) for (int x : idDrone) V.push_back(x);
         V.push_back(0);
 
+        // if ( (int) V.size() != instance.numPoint+2 ) {
+        //     vehicle.debug(instance);
+        //     drone.debug(instance);
+
+        //     cerr << "VEHICLE_SIZE: " <<  vehicle.points.size() << '\n';
+
+        //     cerr << "vector V : \n";
+        //     for (int x : V) cerr << x << " ";
+        //     cerr << "V size() : " << V.size() << '\n';
+        //     exit(0);
+        // }
+
         assert( (int) V.size() == instance.numPoint+2 && V[0] == 0 && V.back() == 0 );
 
         Build_Graph(instance);
@@ -156,7 +168,13 @@ namespace Split_Procedure {
             if ( max(lab.c1, lab.c2) + eps < max(bestLab.c1, bestLab.c2) ) bestLab = lab;
         }
 
-        if (!flag) return;
+        if (!flag) {
+            FOR(i, 1, drone.node.size()-1) {
+                for (int x : drone.node[i]) drone.node[0].push_back(x);
+            }
+            while ( (int) drone.node.size() > 1 ) drone.node.pop_back();
+            return;
+        }
 
         vehicle.points.clear();    
         drone.node.clear(); 

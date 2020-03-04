@@ -8,26 +8,28 @@
 
 namespace interative_two_step_heuristic {
     const double eps = 1e-9;
+    const int limitRandomSeed = 10000;
 
     void Process(tigersugar::Instance &instance) {
-            //instance.Initialize();
         tigersugar::Tour best_veh;
         tigersugar::Drone_Tour best_drone;
 
+        clock_t startTime = clock();
+
         double bestCost;
-        int limit_case = 3;
+        int limit_case = 1000000;
         for (int ore_case = 1; ore_case <= limit_case; ++ore_case) {
             tigersugar::Tour vehicle = NNTourBuilder::build(instance, 0);
             tigersugar::Drone_Tour drone;
 
-                // FOR(i, 0, instance.numPoint) vehicle.add(i);
-                // vehicle.add(0);
-                // vehicle.debug(instance);
-
             double curCost = vehicle.distance(instance);
+
             while (true) {
                 int UB1 = (ore_case == 1) ? curCost : min(curCost, bestCost);
                 Split_Procedure::split(instance, vehicle, drone, UB1);
+
+                    // vehicle.debug(instance);
+                    // drone.debug(instance);
 
                 tsp_optimizer::optimizeTour(instance, vehicle);
                 pms_optimizer::optimizeTour(instance, drone);
@@ -39,9 +41,16 @@ namespace interative_two_step_heuristic {
                 if ( cost + eps < curCost ) curCost = cost;
                 else break;
             }
-            if (ore_case == 1 || bestCost > curCost) { bestCost = curCost; best_veh = vehicle; best_drone = drone; }
-        }
+            if (ore_case == 1 || bestCost > curCost) { 
+                bestCost = curCost; best_veh = vehicle; best_drone = drone; 
+            }
 
+            clock_t currentTime = clock();
+            if ( (double) (currentTime - startTime) / CLOCKS_PER_SEC > 300.0 ) break;
+
+                // cerr << "DONE :)\n";
+                // exit(0);
+        }
 
             /// OUTPUT 
            // best_veh.debug(instance);
