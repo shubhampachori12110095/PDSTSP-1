@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     cerr << "Number of customers: " << Problem::n << "\n";
     cerr << "Number of drones: " << Problem::m << "\n";
-    cerr << "Number of drone_eligible: " << Problem::nD << "\n\n";
+    cerr << "Number of drone_eligible: " << Problem::nD-1 << "\n\n";
     
         cerr << "RESULT: " << Problem::result << "\n\n";
         

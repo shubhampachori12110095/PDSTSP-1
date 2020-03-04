@@ -14,7 +14,7 @@ namespace interative_two_step_heuristic {
         tigersugar::Tour best_veh;
         tigersugar::Drone_Tour best_drone;
 
-        double bestSol;
+        double bestCost;
         int limit_case = 3;
         for (int ore_case = 1; ore_case <= limit_case; ++ore_case) {
             tigersugar::Tour vehicle = NNTourBuilder::build(instance, 0);
@@ -24,9 +24,10 @@ namespace interative_two_step_heuristic {
                 // vehicle.add(0);
                 // vehicle.debug(instance);
 
-            double bestCost = vehicle.distance(instance);
+            double curCost = vehicle.distance(instance);
             while (true) {
-                Split_Procedure::split(instance, vehicle, drone, bestCost);
+                int UB1 = (ore_case == 1) ? curCost : min(curCost, bestCost);
+                Split_Procedure::split(instance, vehicle, drone, UB1);
 
                 tsp_optimizer::optimizeTour(instance, vehicle);
                 pms_optimizer::optimizeTour(instance, drone);
@@ -35,10 +36,10 @@ namespace interative_two_step_heuristic {
                 double cost_drone = drone.distance(instance);
                 double cost = max( cost_vehicle, cost_drone );
 
-                if ( cost + eps < bestCost ) bestCost = cost;
+                if ( cost + eps < curCost ) curCost = cost;
                 else break;
             }
-            if (ore_case == 1 || bestSol < bestCost) { bestSol = bestCost; best_veh = vehicle; best_drone = drone; }
+            if (ore_case == 1 || bestCost > curCost) { bestCost = curCost; best_veh = vehicle; best_drone = drone; }
         }
 
 

@@ -45,9 +45,9 @@ namespace NNTourBuilder {
 
             int bestY = -1;
             if (bestY1 < 0) bestY = bestY0;
-            else if (bestY2 < 0) bestY = ( (int) rnd.next(100) % 2 == 0 ) ? bestY0 : bestY1;
+            else if (bestY2 < 0) bestY = ( (int) rnd.next(1000000000) % 2 == 0 ) ? bestY0 : bestY1;
             else {
-                int tmp = (int) rnd.next(100) % 3;
+                int tmp = (int) rnd.next(1000000000) % 3;
                 if (tmp == 0) bestY = bestY0;
                 else if (tmp == 1) bestY = bestY1;
                 else bestY = bestY2;
