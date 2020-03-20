@@ -50,33 +50,31 @@ template<class T>
 
 namespace tigersugar {
 
-typedef int Distance;
+typedef double Distance;
 const Distance INF_DISTANCE = (int)1e9 + 7;
 
 struct Instance {
-    int numPoint, numCar, capacity;
-    vector<int> weight;
+    int numPoint;
     vector<vector<Distance>> distance;
 
-    Instance(int numPoint = 0, int numCar = 0, int capacity = 0) {
+    Instance(){};
+
+    Instance(int numPoint, vector<vector<Distance>> distance) {
         this->numPoint = numPoint;
-        this->numCar = numCar;
-        this->capacity = capacity;
-        weight.assign(numPoint + 1, 0);
-        distance.assign(numPoint + 1, vector<Distance>(numPoint + 1, 0));
+        this->distance.assign(numPoint + 1, vector<Distance>(numPoint + 1, 0));
+        for(int i = 0; i <= numPoint; ++i)
+            for(int j = 0; j <= numPoint; ++j)
+                this->distance[i][j] = distance[i][j];
     }
 
     void print(void) const {
         cerr << "Number of points: " << numPoint << endl;
-        cerr << "Vehicle capacity: " << capacity << endl;
         cerr << "Distance from depot:";
         FOR(i, 1, numPoint) cerr << " " << distance[0][i]; cerr << endl;
         cerr << "Distance matrix:" << endl;
         FOR(i, 1, numPoint) {
             FOR(j, 1, numPoint) cerr << distance[i][j] << " "; cerr << endl;
         }
-        cerr << "Weight:";
-        FOR(i, 1, numPoint) cerr << " " << weight[i]; cerr << endl;
         cerr << "***END***" << endl;
     }
 };
@@ -107,12 +105,6 @@ struct Tour {
         return points.size();
     }
 
-    int weight(const Instance &instance) const {
-        int res = 0;
-        FORE(it, points) res += instance.weight[*it];
-        return res;
-    }
-
     Distance distance(const Instance &instance) const {
         if (points.empty()) return 0;
         Distance res = instance.distance[0][points.front()] + instance.distance[points.back()][0];
@@ -137,7 +129,6 @@ struct Tour {
                     "Invalid point index: %d", *it);
             ensuref(used.insert(*it).se, "Duplicated point index: %d", *it);
         }
-        ensuref(weight(instance) <= instance.capacity, "Weight limit exceeded.");
     }
 };
 

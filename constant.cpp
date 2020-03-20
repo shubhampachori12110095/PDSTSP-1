@@ -12,6 +12,8 @@ namespace Constant
     const double DEFAULT_VEHICLE_SPEED = 25;
 
     const double DEFAULT_DRONE_SPEED = 25;
+
+    const int CONVERGING_THRESHOLD = 1;
 }
 
 #endif

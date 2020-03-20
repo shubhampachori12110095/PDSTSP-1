@@ -1305,9 +1305,9 @@ namespace tsp_optimizer {
         tour.points = vector<int>(tmp.nodes.begin() + 1, tmp.nodes.end() - 1);
         tigersugar::Distance newDistance = tour.distance(instance);
         ensure(newDistance <= oldDistance);
-        if (newDistance < oldDistance)
-            fprintf(stderr, "TSP Optimize from %d to %d (%d)\n",
-                    oldDistance, newDistance, newDistance - oldDistance);
+//        if (newDistance < oldDistance)
+//            fprintf(stderr, "TSP Optimize from %d to %d (%d)\n",
+//                    oldDistance, newDistance, newDistance - oldDistance);
     }
 } // tsp_optimizer
 

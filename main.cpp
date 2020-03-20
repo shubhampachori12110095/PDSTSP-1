@@ -2,8 +2,7 @@
 #include "config.cpp"
 #include "problem.cpp"
 #include "solver.cpp"
-
-#include "tsp/tsp_optimizer.cpp"
+#include "timer.cpp"
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +10,9 @@ int main(int argc, char *argv[])
     cin.tie(0);
     cout.tie(0);
 
-    Config::parse_arguments(argc, argv);
+    Config::load_config_from_file();
+
+    //Config::parse_arguments(argc, argv);
 
     Problem::import_data_from_tsplib_instance(
         Config::input,
@@ -26,5 +27,29 @@ int main(int argc, char *argv[])
     cerr << "Number of drone_eligible: " << Problem::nD << "\n";
 
     // Problem::print_result_to_file(Config::output);
+
+    Timer::timer t;
+    int attempt = 0;
+    Solver::init();
+    while (Solver::unchanged_time < Constant::CONVERGING_THRESHOLD)
+    {
+        t.set_checkpoint();
+        cerr << "\n==================================\n";
+        cerr << "Attempt #" << ++attempt << ": ";
+        Solver::split();
+        Solver::optimize_vehicle_and_drones_tour();
+        Solver::update_result();
+        cerr << "Time: " << t.since_last_checkpoint() << "\n";
+        cerr << "\n==================================\n";
+    }
+
+    Problem::validate_result();
+
+    cerr << "\nFinal result: " << Problem::result;
+    cerr << "\nFinal vehicle result: " << Problem::vResult;
+    cerr << "\nFinal drone result: " << Problem::dResult;
+    cerr << "\nTime: " << t.since_beginning();
+    cerr << "\n" << Problem::result << " " << Problem::vResult << " " << Problem::dResult;
+    Problem::print_result_to_file(Config::output);
 
 }

@@ -9,7 +9,7 @@ namespace Config
     string input;
     bool found_input = false;
 
-    string output = "";
+    string output;
 
     int customer;
     bool found_customer = false;
@@ -18,6 +18,49 @@ namespace Config
 
     double vehicle_speed = Constant::DEFAULT_VEHICLE_SPEED;
     double drone_speed = Constant::DEFAULT_DRONE_SPEED;
+
+    string config_file_name = "config.txt";
+
+    void load_config_from_file()
+    {
+        ifstream input_file(config_file_name);
+        string key;
+        while (input_file >> key)
+        {
+            transform(key.begin(), key.end(), key.begin(), ::toupper);
+            if (key == "INPUT:")
+            {
+                found_input = true;
+                input_file >> input;
+            }
+            else if (key == "OUTPUT:") input_file >> output;
+            else if (key == "CUSTOMER:")
+            {
+                found_customer = true;
+                input_file >> customer;
+            }
+            else if (key == "DRONE:") input_file >> drone;
+            else if (key == "VEHICLE_SPEED:") input_file >> vehicle_speed;
+            else if (key == "DRONE_SPEED:") input_file >> drone_speed;
+            else
+            {
+                cerr << "Unknown argument " << key << "!\n";
+                exit(0);
+            }
+        }
+
+        if (!found_input)
+        {
+            cerr << "Input is required!\n";
+            exit(0);
+        }
+        if (!found_customer)
+        {
+            cerr << "Number of customers is required!\n";
+            exit(0);
+        }
+
+    }
 
     void parse_arguments(int argc, char *argv[])
     {
@@ -64,10 +107,9 @@ namespace Config
             }
             else
             {
-                cerr << "Unknow argument " << argv[i] << "!\n";
+                cerr << "Unknown argument " << argv[i] << "!\n";
                 exit(0);
             }
-
         }
 
         if (!found_input)

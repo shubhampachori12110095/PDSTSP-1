@@ -1,0 +1,6 @@
+INPUT: berlin52_1_80.csv
+OUTPUT: output.result
+CUSTOMER: 52
+DRONE: 1
+VEHICLE_SPEED: 1
+DRONE_SPEED: 2
